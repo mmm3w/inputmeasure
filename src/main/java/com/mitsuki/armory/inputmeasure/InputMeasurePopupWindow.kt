@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.mitsuki.armory.extend.*
+import com.mitsuki.armory.base.extend.*
 
 class InputMeasurePopupWindow(private val activity: AppCompatActivity) : PopupWindow(),
     ViewTreeObserver.OnGlobalLayoutListener, LifecycleObserver {
