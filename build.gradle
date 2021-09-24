@@ -45,7 +45,6 @@ dependencies {
 
     implementation deps.appcompat
     implementation deps.recyclerview
-    implementation 'com.mitsuki.armory:base:1.0.0'
 }
 
 uploadArchives{
