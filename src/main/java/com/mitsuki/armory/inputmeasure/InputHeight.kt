@@ -7,14 +7,17 @@ import androidx.appcompat.app.AppCompatActivity
 
 object InputHeight {
     //用于缓存键盘高度
-    private lateinit var mSharedPreferences: SharedPreferences
+    private var isInit = false
+    private var mSharedPreferences: SharedPreferences? = null
 
-    var call: ((Int) -> Unit)? = null
+    private var call: ((Int) -> Unit)? = null
 
     //sp缓存中的键盘高度
     var storeKeyboardHeight: Int
-        get() = mSharedPreferences.getInt("m_keyboard_height", 0)
-        internal set(value) = mSharedPreferences.edit().putInt("m_keyboard_height", value).apply()
+        get() = mSharedPreferences?.getInt("m_keyboard_height", 0) ?: 0
+        internal set(value) {
+            mSharedPreferences?.edit()?.putInt("m_keyboard_height", value)?.apply()
+        }
 
     private var cachedKeyboardHeight: Int = 0
 
@@ -22,10 +25,17 @@ object InputHeight {
     var keyboardHeight: Int = 0
         internal set
 
+    //可不调用
     fun init(context: Context) {
+        if (isInit) return
         mSharedPreferences = context.getSharedPreferences("m_keyboard", Context.MODE_PRIVATE)
         cachedKeyboardHeight = storeKeyboardHeight
         keyboardHeight = storeKeyboardHeight
+        isInit = true
+    }
+
+    fun callback(action: ((Int) -> Unit)? = null) {
+        call = action
     }
 
     fun bindMeasure(activity: AppCompatActivity) {

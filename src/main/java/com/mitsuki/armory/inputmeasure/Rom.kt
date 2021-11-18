@@ -41,26 +41,27 @@ sealed class Rom {
     object Huawei : Rom() {
         override fun hit(): Boolean {
             if (Build.MANUFACTURER.contains("HUAWEI", true)) return true
-            if (getProp("ro.build.version.emui").isNotEmpty()) return true
+            if (getProp("ro.build.version.emui").trim().isNotEmpty()) return true
             return false
         }
     }
 
     object Oppo : Rom() {
         override fun hit(): Boolean {
-            return getProp("ro.build.version.opporom").isNotEmpty()
+            return getProp("ro.build.version.opporom").trim().isNotEmpty()
         }
     }
 
     object Vivo : Rom() {
         override fun hit(): Boolean {
-            return getProp("ro.vivo.os.version").isNotEmpty()
+            return getProp("ro.vivo.os.version").trim().isNotEmpty()
         }
     }
 
     object Flyme : Rom() {
         override fun hit(): Boolean {
-            return Build.DISPLAY.toUpperCase(Locale.getDefault()) == "FLYME"
+            return Build.DISPLAY.toUpperCase(Locale.getDefault()) == "FLYME" ||
+                    Build.MANUFACTURER.contains("Meizu", true)
         }
     }
 

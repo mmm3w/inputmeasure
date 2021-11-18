@@ -2,7 +2,10 @@ package com.mitsuki.armory.inputmeasure
 
 import android.content.Context
 import android.provider.Settings
+import android.view.KeyCharacterMap
+import android.view.KeyEvent
 import android.view.Surface
+import android.view.ViewConfiguration
 
 internal object NavigationBar {
     fun size(context: Context): Int {
@@ -33,7 +36,7 @@ internal object NavigationBar {
                     Settings.Global.getInt(context.contentResolver, "navigationbar_is_min", 0) != 0
                 if (isBarInvisible) 0 else (if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) context.navigationBarHeight() else 0)
             }
-            else -> context.navigationBarHeight()
+            else -> if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) context.navigationBarHeight() else 0
         }
     }
 }

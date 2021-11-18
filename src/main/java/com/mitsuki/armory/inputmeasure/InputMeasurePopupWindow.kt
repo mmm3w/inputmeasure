@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.util.Log
 import android.view.*
 import android.widget.PopupWindow
@@ -13,9 +14,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 
 /**
- * 仅对29及以下版本兼容
- * 在30+版本中存在较多有关window的api增减
- * 需要使用另外的实现方式来实现
+ * 虽然有过时API，不过还能用，而且暂时没有替代api
  * */
 class InputMeasurePopupWindow(private val activity: AppCompatActivity) : PopupWindow(),
     ViewTreeObserver.OnGlobalLayoutListener, LifecycleObserver {
@@ -24,11 +23,6 @@ class InputMeasurePopupWindow(private val activity: AppCompatActivity) : PopupWi
 
     //界面会被销毁，所以lastDisplayRect不一定是最后一次的，如果在销毁之前
     private val lastDisplayRect by lazy { Rect() }
-//    private val screenRect by lazy { Rect(0, 0, activity.screenWidth, activity.screenHeight) }
-//    private val displayRect by lazy { Rect(0, 0, activity.displayWidth, activity.displayHeight) }
-
-    private val navigationBarHeight = activity.navigationBarHeight()
-
 
     /**
      * 注：在activity旋转的时候，在上一个activity销毁之前会概率调用该方法，并且显示的区域会是旋转之后的区域，会和界面重建后调用的该方法重复
@@ -94,7 +88,6 @@ class InputMeasurePopupWindow(private val activity: AppCompatActivity) : PopupWi
         //直接根据手机型号适配，因为单纯通过值的计算无法考虑到部分情况
         //将屏幕的方向也考虑进去
         val sourceNavigationBarHeight: Int = NavigationBar.withRotation(activity, activity.rotation)
-
         val isShowNavigation =
             (0 == (activity.window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_HIDE_NAVIGATION))
         //最后实际会参与计算的高度
