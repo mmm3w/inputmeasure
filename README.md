@@ -5,6 +5,15 @@ implementation --> [maven](https://github.com/mmm3w/maven)
 ### 输入法高度测量
 
 
-Android api 30 以上考虑使用新的实现
+```
+//初始化，可不调用，不调用的话将不缓存键盘高度，相关数据自行处理
+InputHeight.init(context)
 
-旧实现在部分机型上仍然存在重复调用，高度不正确等问题
+//测量绑定，会通过生命周期自动解绑
+InputHeight.bindMeasure(AppCompatActivity)
+
+//监听事件，建议自行做全局分发
+InputHeight.callback{ height->
+    ...
+}
+```
